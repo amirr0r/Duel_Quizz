@@ -71,15 +71,7 @@ public class Partie {
 						+ "Tapez le numéro correspondant à la réponse : ");
 				answers[0] = 3;
 				reponse1 = Integer.parseInt(sc.nextLine());
-				while (reponse1 < 1 || reponse1 > 3) {
-					System.out.println("Erreur ! Choisissez une réponse du menu : ");
-					reponse1 = Integer.parseInt(sc.nextLine());
-				}
-				if (reponse1 == answers[0]) {
-					System.out.println("Bravo ! Bonne réponse");
-					this.players.get(0).pointsGagnés();
-				} else
-					System.out.println("Faux ! La bonne réponse était la "+answers[0]);
+				goodanswer(reponse1, answers[0], this.players.get(0));
 				System.out.println(q2.toString()
 						+ "\t1 - David Douillet\n"
 						+ "\t2 - César Cielo\n"
@@ -87,15 +79,7 @@ public class Partie {
 						+ "Tapez le numéro correspondant à la réponse : ");
 				answers[1] = 2;
 				reponse2 = Integer.parseInt(sc.nextLine());
-				while (reponse2 < 1 || reponse2 > 3) {
-					System.out.println("Erreur ! Choisissez une réponse du menu : ");
-					reponse2 = Integer.parseInt(sc.nextLine());
-				}
-				if (reponse2 == answers[1]) {
-					System.out.println("Bravo ! Bonne réponse");
-					this.players.get(0).pointsGagnés();
-				} else
-					System.out.println("Faux ! La bonne réponse était la "+answers[1]);
+				goodanswer(reponse2, answers[1], this.players.get(0));
 				System.out.println(q2.toString()
 						+ "\t1 - Glenn Morris\n"
 						+ "\t2 - Jesse Owens\n"
@@ -103,15 +87,7 @@ public class Partie {
 						+ "Tapez le numéro correspondant à la réponse : ");
 				answers[2] = 2;
 				reponse3 = Integer.parseInt(sc.nextLine());
-				while (reponse3 < 1 || reponse3 > 3) {
-					System.out.println("Erreur ! Choisissez une réponse du menu : ");
-					reponse3 = Integer.parseInt(sc.nextLine());
-				}
-				if (reponse3 == answers[2]) {
-					System.out.println("Bravo ! Bonne réponse");
-					this.players.get(0).pointsGagnés();
-				} else
-					System.out.println("Faux ! La bonne réponse était la "+answers[2]);
+				goodanswer(reponse3, answers[2], this.players.get(0));
 				break;
 			case 2 :
 				break;
@@ -122,5 +98,16 @@ public class Partie {
 		}
 		System.out.println("Bye !");
 		sc.close();
+	}
+	public void goodanswer(int reponse, int answer, Joueur j) {
+		while (reponse < 1 || reponse > 3) {
+			System.out.println("Erreur ! Choisissez une réponse du menu : ");
+			reponse = Integer.parseInt(sc.nextLine());
+		}
+		if (reponse == answer) {
+			System.out.println("Bravo ! Bonne réponse");
+			j.pointsGagnés();
+		} else
+			System.out.println("Faux ! La bonne réponse était la "+answer);
 	}
 }
