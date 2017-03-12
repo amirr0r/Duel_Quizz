@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,20 +29,10 @@ public class Partie {
 			i--;
 		}
 	}
-	public void lancerPartie() {
-		if (this.players.size() == 0)
-			throw new Error("Aucun joueur n'est inscrit");
-		Question q1;
-		Question q2;
-		Question q3;
-
+	public int choixTheme(Joueur j) {
 		int choix;
-		int reponse1;
-		int reponse2;
-		int reponse3;
-		int [] answers = new int[3];
 		sc = new Scanner(System.in);
-		System.out.println("Bonjour "+this.players.get(0).getNom()+", veuillez choisir un thème :\n"
+		System.out.println("Bonjour "+j.getNom()+", veuillez choisir un thème :\n"
 				+ "0.Sortir\n"
 				+ "1.Sport\n"
 				+ "2.Mangas, Bande dessinées\n"
@@ -53,6 +44,19 @@ public class Partie {
 			System.out.println("Erreur ! Choisissez une option du menu : ");
 			choix = Integer.parseInt(sc.nextLine());
 		}
+		return choix;
+	}
+	public void lancerPartie(Joueur j, int choix) {
+		if (this.players.size() == 0)
+			throw new Error("Aucun joueur n'est inscrit");
+		Question q1;
+		Question q2;
+		Question q3;
+
+		int reponse1;
+		int reponse2;
+		int reponse3;
+		int [] answers = new int[3];
 		switch (choix) {
 			case 0 :
 				break;
@@ -61,9 +65,9 @@ public class Partie {
 				q1 = new Question("Quelle est l'équipe qui a remporté la finale des playoffs de 2013(NBA)");
 				q2 = new Question("Qui détient le record mondiale en nage libre sur 100m (Bassin 50m)");
 				q3 = new Question("Quel athlète est le vainqueur de 4 médailles d'or ( 100m, 200 m, 4x 100m et saut en longueur ) aux jeux Olympiques de Berlin en 1936");
-				ajouterQuestion(q1);
-				ajouterQuestion(q2);
-				ajouterQuestion(q3);
+				this.ajouterQuestion(q1);
+				this.ajouterQuestion(q2);
+				this.ajouterQuestion(q3);
 				System.out.println(q1.toString()
 						+ "\t1 - Chicago Bulls\n"
 						+ "\t2 - Los Angeles Lakers\n"
@@ -71,7 +75,7 @@ public class Partie {
 						+ "Tapez le numéro correspondant à la réponse : ");
 				answers[0] = 3;
 				reponse1 = Integer.parseInt(sc.nextLine());
-				goodanswer(reponse1, answers[0], this.players.get(0));
+				goodanswer(reponse1, answers[0], j);
 				System.out.println(q2.toString()
 						+ "\t1 - David Douillet\n"
 						+ "\t2 - César Cielo\n"
@@ -79,7 +83,7 @@ public class Partie {
 						+ "Tapez le numéro correspondant à la réponse : ");
 				answers[1] = 2;
 				reponse2 = Integer.parseInt(sc.nextLine());
-				goodanswer(reponse2, answers[1], this.players.get(0));
+				goodanswer(reponse2, answers[1], j);
 				System.out.println(q2.toString()
 						+ "\t1 - Glenn Morris\n"
 						+ "\t2 - Jesse Owens\n"
@@ -87,7 +91,7 @@ public class Partie {
 						+ "Tapez le numéro correspondant à la réponse : ");
 				answers[2] = 2;
 				reponse3 = Integer.parseInt(sc.nextLine());
-				goodanswer(reponse3, answers[2], this.players.get(0));
+				goodanswer(reponse3, answers[2], j);
 				break;
 			case 2 :
 				break;
@@ -96,8 +100,8 @@ public class Partie {
 			case 4 :
 				break;
 		}
-		System.out.println("Bye !");
-		sc.close();
+		System.out.println("À la prochaine !"+j.getNom());
+//		sc.close();
 	}
 	public void goodanswer(int reponse, int answer, Joueur j) {
 		while (reponse < 1 || reponse > 3) {
@@ -109,5 +113,21 @@ public class Partie {
 			j.pointsGagnés();
 		} else
 			System.out.println("Faux ! La bonne réponse était la "+answer);
+	}
+	public void vainqueurs() {
+		int i = 0;
+		for (Joueur j : this.players) {
+//			if (j.getPoints() == this.bestScores())
+				System.out.println("\t- "+this.players.get(i).getNom()+", "+this.players.get(i).getPoints()+" points");
+			i++;
+		}
+	}
+	public int bestScores() {
+		int max= 0;
+		for ( Joueur j : this.players) {
+			if (j.getPoints() > max)
+				max = j.getPoints();
+		}
+		return max;
 	}
 }
